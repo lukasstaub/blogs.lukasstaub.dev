@@ -1,0 +1,50 @@
+:root {
+    --nav-height: 70px;
+    --text-color: #000;
+
+    --bg-color: #fff;
+    --link-color: #0984e3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: "Open Sans", sans-serif;
+    color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+a.link-btn {
+    font-size: 16px;
+    padding: 4px;
+    border: 1.5px var(--text-color) solid;
+
+    transition-property: background-color, color;
+    transition-duration: 0.3s;
+
+    &:hover {
+        background-color: var(--text-color);
+        color: var(--bg-color);
+    }
+}
+
+ul,
+ol {
+    margin-left: 20px;
+
+    a {
+        color: var(--link-color);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #cfcfcf;
+        --bg-color: rgb(30, 30, 30);
+    }
+}

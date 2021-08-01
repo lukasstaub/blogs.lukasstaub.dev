@@ -1,0 +1,14 @@
+<main class="post">
+    <div class="top">
+        <h1><%= blog.title %></h1>
+        <% if(cookies[process.env.COOKIE_NAME]) { %><a class="link-btn" href="https://admin.lukasstaub.dev/blogs/edit?id=<%= blog.id %>" target="_blank"><%= i18n.generic_edit %></a><% } %>
+    </div>
+    <hr />
+    <div class="content">
+        <%- blog.body %>
+        <div class="info">
+            <p><%= i18n.generic_updated_at(new Date(blog.updated_at).toLocaleString())%></p>
+            <p><%= i18n.generic_published_at(new Date(blog.published_at).toLocaleString())%></p>
+        </div>
+    </div>
+</main>

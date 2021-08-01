@@ -1,0 +1,14 @@
+<main class="posts-list">
+    <h1><%= page_title %></h1>
+    <% if(contents.length> 0) { %>
+    <ul>
+        <% contents.map((blog) => { const date = new Date(blog.published_at) %>
+        <li>
+            <a href="/<%= date.getFullYear() %>/<%= date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}` %>/<%= date.getDate() > 9 ? date.getDate() : `0${date.getDate()}` %>/<%= blog.slug %>"><%= `${blog.title} (${date.toLocaleString()})` %></a>
+        </li>
+        <% }); %>
+    </ul>
+    <% } else { %>
+    <p style="text-align: center; margin: 8rem 0"><%= i18n.posts_no_found %></p>
+    <% } %>
+</main>

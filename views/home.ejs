@@ -1,0 +1,72 @@
+<main class="home-container">
+    <section>
+        <h1 style="margin-bottom: 1.5rem"><%= i18n.title_featured %></h1>
+        <% const date = new Date(featured.published_at) %>
+        <div class="blog-card">
+            <h2><%= featured.title %></h2>
+            <hr />
+            <div class="preview"><%- featured.body %></div>
+            <div class="actions">
+                <a class="link-btn" href="/<%= date.getFullYear() %>/<%= date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}` %>/<%= date.getDate() > 9 ? date.getDate() : `0${date.getDate()}` %>/<%= featured.slug %>"> <%= i18n.generic_read_more %> </a>
+            </div>
+        </div>
+    </section>
+    <section class="home-post-top">
+        <h1><%= i18n.title_latest_posts %></h1>
+        <div class="home-post-grid">
+            <% newBlogs.map((blog) => { const date = new Date(blog.published_at) %>
+            <div class="blog-card">
+                <h2><%= blog.title %></h2>
+                <hr />
+                <div class="preview"><%- blog.body %></div>
+                <div class="actions">
+                    <a class="link-btn" href="/<%= date.getFullYear() %>/<%= date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}` %>/<%= date.getDate() > 9 ? date.getDate() : `0${date.getDate()}` %>/<%= blog.slug %>"> <%= i18n.generic_read_more %> </a>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </section>
+
+    <div class="categories">
+        <h1>Categories</h1>
+        <div class="inner">
+            <% categories.map((cat) => { %>
+            <a href="/category?id=<%= cat.id %>"><%= cat.name %></a>
+            <% }); %>
+        </div>
+    </div>
+
+    <section class="home-post-top">
+        <% languageBlogs.map((obj) => { %>
+        <div class="lang-section">
+            <h1>Posts in <%= i18n[`lang_${obj.lang}`]%></h1>
+            <div class="home-post-grid">
+                <% obj.blogs.map((blog) => { const date = new Date(blog.published_at) %>
+                <div class="blog-card">
+                    <h2><%= blog.title %></h2>
+                    <hr />
+                    <div class="preview"><%- blog.body %></div>
+                    <div class="actions">
+                        <a class="link-btn" href="/<%= date.getFullYear() %>/<%= date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}` %>/<%= date.getDate() > 9 ? date.getDate() : `0${date.getDate()}` %>/<%= blog.slug %>"><%= i18n.generic_read_more %></a>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+        <% }) %>
+    </section>
+
+    <section class="home-bottom">
+        <div>
+            <h1><%= i18n.title_latest_ten_posts %></h1>
+            <a class="link-btn" href="/all"><%= i18n.generic_view_all %></a>
+        </div>
+        <ul>
+            <% blogs.map((blog) => { const date = new Date(blog.published_at) %>
+            <li>
+                <a href="/<%= date.getFullYear() %>/<%= date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}` %>/<%= date.getDate() > 9 ? date.getDate() : `0${date.getDate()}` %>/<%= blog.slug %>"><%= `${blog.title} (${date.toLocaleString()})` %></a>
+            </li>
+            <% }); %>
+        </ul>
+    </section>
+</main>
