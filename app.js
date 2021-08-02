@@ -15,9 +15,47 @@ const de = require("./src/lang/de");
 const en = require("./src/lang/en");
 
 const app = express();
-
-app.set("trust proxy", true);
 app.set("view engine", "ejs");
+
+//static routes
+app.use("/css", express.static(path.join(__dirname, "./public/css")));
+app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
+//end of static routes
+
+app.use((req, _, next) => {
+    const langs = req.acceptsLanguages();
+
+    if (langs[0].toLocaleLowerCase().includes("de")) {
+        req.i18n = { ...en, ...de };
+    } else {
+        req.i18n = en;
+    }
+
+    return next();
+});
+
+app.use(async (req, _, next) => {
+    const data = await knex("website_config");
+
+    const config = {};
+
+    data.map((el) => {
+        config[el.name] = el.value;
+    });
+
+    req.config = config;
+
+    return next();
+});
+
+app.use((req, res, next) => {
+    if (req.config.blog_maintenance) return res.render("servicing", { i18n: req.i18n });
+
+    return next();
+});
+
+//beginning of normal handling
+app.set("trust proxy", true);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -36,9 +74,6 @@ app.use(async (req, _, next) => {
 
     return next();
 });
-
-app.use("/css", express.static(path.join(__dirname, "./public/css")));
-app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
 
 app.use((req, _, next) => {
     const langs = req.acceptsLanguages();

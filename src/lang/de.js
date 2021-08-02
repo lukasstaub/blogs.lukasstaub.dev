@@ -9,6 +9,7 @@ module.exports = {
     title_posts_for_cat: (name) => `Beiträge in ${name}`,
     title_not_found: "Nicht gefunden",
     title_featured: "Vorgestellt:",
+    title_servicing: "Wartung",
 
     //posts
     posts_no_found: "Keine Beiträge gefunden",
@@ -19,6 +20,7 @@ module.exports = {
     generic_updated_at: (date) => `Zuletzt bearbeitet: ${date}`,
     generic_published_at: (date) => `Veröffentlicht am: ${date}`,
     generic_edit: "Bearbeiten",
+    generic_site_maintenance: "Momentan wird diese Seite gewartet.\nBitte kommen Sie zu einem späteren Zeitpunkt zurück.",
 
     //languages
     lang_de: "Deutsch",
