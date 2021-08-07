@@ -1,3 +1,25 @@
+<style>
+    .not-found {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(100vh - calc(var(--nav-height) + 32px));
+        padding: 16px;
+        flex-direction: column;
+    }
+
+    .not-found img {
+        max-width: 1000px;
+        margin-bottom: 2.5rem;
+    }
+
+    @media only screen and (max-width: 1350px) {
+        .not-found img {
+            width: 80%;
+        }
+    }
+</style>
 <main class="not-found">
-    <h1>404</h1>
+    <img src="/assets/not_found.svg" alt="not_found" />
+    <h1><%= i18n.desc_not_found %></h1>
 </main>

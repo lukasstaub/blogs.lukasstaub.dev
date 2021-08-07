@@ -29,11 +29,13 @@
 
     <div class="categories">
         <h1>Categories</h1>
-        <div class="inner">
+        <ul>
             <% categories.map((cat) => { %>
-            <a href="/category?id=<%= cat.id %>"><%= cat.name %></a>
+            <li>
+                <a href="/category?id=<%= cat.id %>"><%= cat.name %></a>
+            </li>
             <% }); %>
-        </div>
+        </ul>
     </div>
 
     <section class="home-post-top">

@@ -1,0 +1,18 @@
+<% const date = new Date(blog.published_at) %>
+<style>
+    main {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - calc(var(--nav-height) + 32px));
+        justify-content: center;
+    }
+
+    main > a {
+        margin-top: 2rem;
+        margin: 2rem auto 2rem auto;
+    }
+</style>
+<main>
+    <h2 style="text-align: center"><%= i18n.desc_submitted_comment %></h2>
+    <a href="/<%= date.getFullYear() %>/<%= date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}` %>/<%= date.getDate() > 9 ? date.getDate() : `0${date.getDate()}` %>/<%= blog.slug %>" class="link-btn"><%= i18n.generic_return_to_post %></a>
+</main>

@@ -49,7 +49,7 @@ app.use(async (req, _, next) => {
 });
 
 app.use((req, res, next) => {
-    if (req.config.blog_maintenance) return res.render("servicing", { i18n: req.i18n });
+    if (req.config.blog_maintenance && process.env.NODE_ENV === "production") return res.render("servicing", { i18n: req.i18n });
 
     return next();
 });

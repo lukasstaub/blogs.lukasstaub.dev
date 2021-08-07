@@ -4,7 +4,7 @@
         <% if(cookies[process.env.COOKIE_NAME]) { %><a class="link-btn" href="https://admin.lukasstaub.dev/blogs/edit?id=<%= blog.id %>" target="_blank"><%= i18n.generic_edit %></a><% } %>
     </div>
     <hr />
-    <div class="content">
+    <div class="ck-content">
         <%- blog.body %>
         <div class="info">
             <p><%= i18n.generic_updated_at(new Date(blog.updated_at).toLocaleString())%></p>
@@ -12,3 +12,29 @@
         </div>
     </div>
 </main>
+<div class="comments">
+    <form class="create-comment" action="/comment/<%= blog.slug %>" method="POST">
+        <h2><%= i18n.title_create_comment %></h2>
+        <input placeholder="<%= i18n.comment_name %>" required name="name" />
+        <input placeholder="<%= i18n.comment_email %>" required name="email" type="email" />
+        <textarea placeholder="<%= i18n.comment_body %>" required name="body"></textarea>
+        <button type="submit" class="link-btn" style="margin-left: auto"><%= i18n.comment_action %></button>
+    </form>
+    <section>
+        <h2><%= i18n.comment_comments %></h2>
+        <% if(comments.length === 0) { %>
+        <div style="width: 100%; display: flex; align-items: center; justify-content: center; min-height: 200px">
+            <p><%= i18n.comments_no_found %></p>
+        </div>
+        <% } else { comments.map((comment) => { %>
+        <div class="comment">
+            <div>
+                <b><%= comment.name %></b>
+                <p><%= new Date(comment.submitted_at).toLocaleString() %></p>
+            </div>
+            <hr />
+            <p><%= comment.body %></p>
+        </div>
+        <% }); } %>
+    </section>
+</div>

@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const Turndown = require("turndown");
 const { markdown } = require("markdown");
+const nodemailer = require("nodemailer");
+
 const knex = require("./config/knex");
 
 const router = Router();
@@ -64,7 +66,9 @@ router.get("/:year/:month/:day/:slug", async (req, res) => {
 
     if (!blog) return res.status(404).render("404", { title: req.i18n.title_not_found, i18n: req.i18n });
 
-    return res.render("post", { cookies: req.cookies, i18n: req.i18n, title: blog.title, blog });
+    const comments = await knex("comments").where("blog_id", "=", blog.id).whereNotNull("approved_at");
+
+    return res.render("post", { cookies: req.cookies, i18n: req.i18n, title: blog.title, blog, comments });
 });
 
 router.get("/all", async (req, res) => {
@@ -83,6 +87,43 @@ router.get("/category", async (req, res) => {
     const blogs = await knex("blogs").select("title", "slug", "id", "published_at").whereNotNull("published_at").where("category_id", "=", req.query.id).orderBy("published_at", "desc");
 
     return res.render("posts", { title: req.i18n.title_posts_for_cat(category.name), i18n: req.i18n, contents: blogs, page_title: category.name });
+});
+
+router.post("/comment/:slug", async (req, res) => {
+    const { name, email, body } = req.body;
+
+    if (!name || !email || !body) return res.redirect("/");
+
+    const [post] = await knex("blogs").where("slug", "=", req.params.slug);
+
+    if (!post) return res.redirect("/");
+
+    await knex("comments").insert({
+        name,
+        email,
+        body,
+        ip: req.ip,
+        blog_id: post.id,
+    });
+
+    const transporter = nodemailer.createTransport({
+        host: process.env.MAIL_HOST,
+        port: 25,
+        secure: false,
+        auth: {
+            user: process.env.MAIL_FROM,
+            pass: process.env.MAIL_PW,
+        },
+    });
+
+    await transporter.sendMail({
+        from: `Blogs by Lukas Staub <${process.env.MAIL_FROM}>`,
+        to: process.env.MAIL_TO,
+        subject: "Neuer Kommentar",
+        text: `Ein neuer Kommentar wurde eingereicht!\n\nhttps://admin.lukasstaub.dev/blogs/comments`,
+    });
+
+    return res.render("comment-submitted", { title: req.i18n.title_comment_submitted, i18n: req.i18n, blog: post });
 });
 
 module.exports = router;
