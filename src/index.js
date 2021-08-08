@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const Turndown = require("turndown");
-const { markdown } = require("markdown");
+const marked = require("marked");
 const nodemailer = require("nodemailer");
 
 const knex = require("./config/knex");
@@ -20,8 +20,8 @@ router.get("/", async (req, res) => {
     const categories = await knex("categories").orderBy("name", "asc");
 
     function shorten(body) {
-        const strLength = 350;
-        return markdown.toHTML(service.turndown(body).substring(0, strLength) + "...");
+        const strLength = 450;
+        return marked.parse(service.turndown(body).substring(0, strLength) + "...");
     }
 
     const obj = {};
