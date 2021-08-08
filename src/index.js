@@ -54,10 +54,12 @@ router.get("/", async (req, res) => {
         languageBlogs: Object.keys(obj).map((el) => obj[el]),
         blogs,
         categories,
-        featured: {
-            ...featured,
-            body: shorten(featured.body),
-        },
+        featured: featured
+            ? {
+                  ...featured,
+                  body: shorten(featured.body),
+              }
+            : {},
     });
 });
 
