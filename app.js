@@ -20,6 +20,7 @@ app.set("view engine", "ejs");
 //static routes
 app.use("/css", express.static(path.join(__dirname, "./public/css")));
 app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
+app.use("/js", express.static(path.join(__dirname, "./public/js")));
 //end of static routes
 
 app.use((req, _, next) => {
@@ -67,7 +68,6 @@ app.use(async (req, _, next) => {
         await knex("access_logs").insert({
             user_agent: req.headers["user-agent"],
             page_name: process.env.PAGE_NAME,
-            requested_resource: req.path,
             method: req.method,
         });
     }
